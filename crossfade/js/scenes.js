@@ -1,5 +1,6 @@
 import * as THREE from '../../build/three.module.js';
 import { BufferGeometryUtils } from '../../utils/BufferGeometryUtils.js';
+import {GLOBAL} from './global.js';
 
 function generateGeometry( objectType, numObjects ) {
 
@@ -72,7 +73,7 @@ function generateGeometry( objectType, numObjects ) {
 
       }
 
-export function FXScene( renderer, type, numObjects, cameraZ, fov, rotationSpeed, clearColor ) {
+export function FXScene( type, numObjects, cameraZ, fov, rotationSpeed, clearColor ) {
 
         this.clearColor = clearColor;
 
@@ -102,18 +103,18 @@ export function FXScene( renderer, type, numObjects, cameraZ, fov, rotationSpeed
           this.mesh.rotation.y += delta * this.rotationSpeed.y;
           this.mesh.rotation.z += delta * this.rotationSpeed.z;
 
-          renderer.setClearColor( this.clearColor );
+          GLOBAL.renderer.setClearColor( this.clearColor );
 
           if ( rtt ) {
 
-            renderer.setRenderTarget( this.fbo );
-            renderer.clear();
-            renderer.render( this.scene, this.camera );
+            GLOBAL.renderer.setRenderTarget( this.fbo );
+            GLOBAL.renderer.clear();
+            GLOBAL.renderer.render( this.scene, this.camera );
 
           } else {
 
-            renderer.setRenderTarget( null );
-            renderer.render( this.scene, this.camera );
+            GLOBAL.renderer.setRenderTarget( null );
+            GLOBAL.renderer.render( this.scene, this.camera );
 
           }
 

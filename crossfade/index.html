@@ -44,12 +44,13 @@
 			import {initGUI, transitionParams} from './js/gui.js';
 			import {FXScene} from './js/scenes.js';
 			import {Transition} from './js/transition.js';
+			import {GLOBAL} from './js/global.js';
 
 			var container, stats;
-			var renderer;
+			//var renderer;
 			var transition;
 			
-			var clock = new THREE.Clock();
+			GLOBAL.clock = new THREE.Clock();
 
 			init();
 			animate();
@@ -60,21 +61,21 @@
 				
 				container = document.getElementById( "container" );
 
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        GLOBAL.renderer = new THREE.WebGLRenderer( { antialias: true } );
+        GLOBAL.renderer.setPixelRatio( window.devicePixelRatio );
+        GLOBAL.renderer.setSize( window.innerWidth, window.innerHeight );
 
-				container.appendChild( renderer.domElement );
+				container.appendChild( GLOBAL.renderer.domElement );
 
 				stats = new Stats();
 				stats.domElement.style.position = 'absolute';
 				stats.domElement.style.top = '0px';
 				container.appendChild( stats.domElement );
 
-				var sceneA = new FXScene( renderer, "cube", 5000, 1200, 120, new THREE.Vector3(0,-0.4,0), 0xffffff );
-				var sceneB = new FXScene( renderer, "sphere", 500, 2000, 50, new THREE.Vector3(0,0.2,0.1), 0x000000 );
+				var sceneA = new FXScene( "cube", 5000, 1200, 120, new THREE.Vector3(0,-0.4,0), 0xffffff );
+				var sceneB = new FXScene( "sphere", 500, 2000, 50, new THREE.Vector3(0,0.2,0.1), 0x000000 );
 				
-				transition = new Transition(sceneA,sceneB,transitionParams,clock,renderer);
+				transition = new Transition(sceneA,sceneB,transitionParams);
 				
 			}
 
@@ -89,7 +90,7 @@
 			
 			function render() {
 				
-				transition.render( clock.getDelta() );
+				transition.render( GLOBAL.clock.getDelta() );
 				
 			}
 

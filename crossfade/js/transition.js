@@ -1,6 +1,7 @@
 import * as THREE from '../../build/three.module.js';
+import {GLOBAL} from './global.js';
 
-export function Transition ( sceneA, sceneB, transitionParams, clock, renderer ) {
+export function Transition ( sceneA, sceneB, transitionParams) {
 
 	this.scene = new THREE.Scene();
 	
@@ -124,7 +125,7 @@ export function Transition ( sceneA, sceneB, transitionParams, clock, renderer )
 		// Transition animation
 		if (transitionParams.animateTransition)
 		{
-			var t=(1+Math.sin(transitionParams.transitionSpeed*clock.getElapsedTime()/Math.PI))/2;
+			var t=(1+Math.sin(transitionParams.transitionSpeed*GLOBAL.clock.getElapsedTime()/Math.PI))/2;
 			transitionParams.transition=THREE.Math.smoothstep(t,0.3,0.7);
 			
 			// Change the current alpha texture after each transition
@@ -159,9 +160,9 @@ export function Transition ( sceneA, sceneB, transitionParams, clock, renderer )
 			
 			this.sceneA.render( delta, true );
 			this.sceneB.render( delta, true );
-      renderer.setRenderTarget( null );
-      renderer.clear();
-      renderer.render( this.scene, this.cameraOrtho );
+      GLOBAL.renderer.setRenderTarget( null );
+      GLOBAL.renderer.clear();
+      GLOBAL.renderer.render( this.scene, this.cameraOrtho );
 
 		}
 
