@@ -1,4 +1,6 @@
-function Transition ( sceneA, sceneB ) {
+import * as THREE from '../../build/three.module.js';
+
+export function Transition ( sceneA, sceneB, transitionParams, clock, renderer ) {
 
 	this.scene = new THREE.Scene();
 	
@@ -85,7 +87,7 @@ function Transition ( sceneA, sceneB ) {
 
 	});		
 
-	quadgeometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
+	var quadgeometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
 	
 	this.quad = new THREE.Mesh(quadgeometry, this.quadmaterial);
 	this.scene.add(this.quad);
@@ -94,8 +96,8 @@ function Transition ( sceneA, sceneB ) {
 	this.sceneA = sceneA;
 	this.sceneB = sceneB;
 
-	this.quadmaterial.uniforms.tDiffuse1.value = sceneA.fbo;
-	this.quadmaterial.uniforms.tDiffuse2.value = sceneB.fbo;
+	this.quadmaterial.uniforms.tDiffuse1.value = sceneA.fbo.texture;
+	this.quadmaterial.uniforms.tDiffuse2.value = sceneB.fbo.texture;
 
 	this.needChange = false;
 	
@@ -157,7 +159,9 @@ function Transition ( sceneA, sceneB ) {
 			
 			this.sceneA.render( delta, true );
 			this.sceneB.render( delta, true );
-			renderer.render( this.scene, this.cameraOrtho, null, true );
+      renderer.setRenderTarget( null );
+      renderer.clear();
+      renderer.render( this.scene, this.cameraOrtho );
 
 		}
 

@@ -34,15 +34,16 @@
 		</div>
 
 		<div id="container"></div>
-
-		<script src="../libs/three.min.js"></script>
-		<script src="../libs/stats.min.js"></script>
-		<script src="../libs/dat.gui.min.js"></script>
-		<script src="js/scenes.js"></script>
-		<script src="js/gui.js"></script>
-		<script src="js/transition.js"></script>
 		
-		<script>
+		<script type="module">
+			import * as THREE from '../build/three.module.js';
+			import Stats from '../libs/stats.module.js';
+//			import {GUI} from '../libs/dat.gui.module.js';
+//			import { BufferGeometryUtils } from '../utils/BufferGeometryUtils.js';
+
+			import {initGUI, transitionParams} from './js/gui.js';
+			import {FXScene} from './js/scenes.js';
+			import {Transition} from './js/transition.js';
 
 			var container, stats;
 			var renderer;
@@ -59,9 +60,9 @@
 				
 				container = document.getElementById( "container" );
 
-				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: false } );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				renderer.sortObjects = false;
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.setSize( window.innerWidth, window.innerHeight );
 
 				container.appendChild( renderer.domElement );
 
@@ -70,10 +71,10 @@
 				stats.domElement.style.top = '0px';
 				container.appendChild( stats.domElement );
 
-				sceneA = new Scene( "cube", 5000, 1200, 120, new THREE.Vector3(0,-0.4,0), 0xffffff );
-				sceneB = new Scene( "sphere", 500, 2000, 50, new THREE.Vector3(0,0.2,0.1), 0x000000 );
+				var sceneA = new FXScene( renderer, "cube", 5000, 1200, 120, new THREE.Vector3(0,-0.4,0), 0xffffff );
+				var sceneB = new FXScene( renderer, "sphere", 500, 2000, 50, new THREE.Vector3(0,0.2,0.1), 0x000000 );
 				
-				transition = new Transition(sceneA,sceneB);
+				transition = new Transition(sceneA,sceneB,transitionParams,clock,renderer);
 				
 			}
 
@@ -96,6 +97,7 @@
 
 	</body>
 	
+	<!--
 	<script type="text/javascript">
 	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -104,6 +106,7 @@
 	var pageTracker = _gat._getTracker("UA-1752824-2");
 	pageTracker._trackPageview();
 	</script>
-	
+	-->
+
 </html>
 
